@@ -35,11 +35,11 @@
   },
   "resources": [
   ],
-  "source-url": "https://github.com/raku-community-modules/App-Pray.git",
+  "source-url": "https://github.com/raku-community-modules/Pray.git",
   "tags": [
+    "TRACING"
   ],
   "test-depends": [
-    "Test"
   ],
   "version": "0.1"
 }
