@@ -6,7 +6,7 @@ use Pray::Output;
 our sub render (
     $scene_file,
     $out_file,
-    Int $width is copy,
+    Int $width  is copy,
     Int $height is copy,
     Bool :$quiet = True,
     Bool :$verbose = False,
@@ -15,10 +15,12 @@ our sub render (
     if !$height {
         if $width {
             $height = $width;
-        } else {
+        }
+        else {
             die 'Width and/or height must be specified';
         }
-    } elsif !$width {
+    }
+    elsif !$width {
         $width = $height;
     }
     
@@ -44,3 +46,4 @@ our sub render (
     $out.write;
 }
 
+# vim: expandtab shiftwidth=4

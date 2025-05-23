@@ -2,11 +2,12 @@ unit class Pray::Geometry::Matrix3D;
 
 has $.values is rw;
 
-multi sub m3d () is export {
+proto sub m3d (|) is export {*}
+multi sub m3d () {
     $?CLASS
 }
 
-multi sub m3d (+@values) is export {
+multi sub m3d (+@values) {
     $?CLASS.new( values => @values )
 }
 
@@ -47,7 +48,7 @@ method scale (:$x = 1, :$y = 1, :$z = 1) {
 }
 
 method rotate ($axis where enum <x y z>, $angle) {
-    $angle ?? {
+    if $angle {
         my $return = self.identity;
         
         my ($x, $y);
@@ -64,10 +65,11 @@ method rotate ($axis where enum <x y z>, $angle) {
         $return.values[$y][$x] = $sin;
         $return.values[$y][$y] = $cos;
         
-        $return;
-    }() !!
+        $return
+    }
+    else {
         self.clone
-    ;
+    }
 }
 
 method invert () {
@@ -100,7 +102,7 @@ method invert () {
         $s[5] * $c[0];
     
     #return self.zero unless $det; # more correct to die here?
-    die "Cannot invert zero-determinant matrix:\n{$i.perl}" unless $det;
+    die "Cannot invert zero-determinant matrix:\n$i.raku()" unless $det;
     
     my $invdet = 1 / $det;
 
@@ -124,7 +126,7 @@ method invert () {
         ( $i[0][0] * $c[3] - $i[0][1] * $c[1] + $i[0][2] * $c[0]) * $invdet,
         (-$i[3][0] * $s[3] + $i[3][1] * $s[1] - $i[3][2] * $s[0]) * $invdet,
         ( $i[2][0] * $s[3] - $i[2][1] * $s[1] + $i[2][2] * $s[0]) * $invdet
-    ] );
+    ] )
 }
 
 method multiply (Pray::Geometry::Matrix3D $m) {
@@ -143,5 +145,4 @@ method multiply (Pray::Geometry::Matrix3D $m) {
     m3d( |@values );
 }
 
-
-
+# vim: expandtab shiftwidth=4

@@ -1,4 +1,3 @@
-use v6;
 use Pray::Geometry::Object;
 unit class Pray::Geometry::Cone is Pray::Geometry::Object;
 
@@ -36,13 +35,14 @@ method _ray_intersection (
     
     my @return_points;
 
-    if ($determinant >= 0) {
+    if $determinant >= 0 {
         my $det_root = 0;
         my @list;
         if $determinant > 0 {
             $det_root = sqrt $determinant;
             @list = -1, 1;
-        } elsif $a {
+        }
+        elsif $a {
             @list = 0;
         }
 
@@ -59,7 +59,8 @@ method _ray_intersection (
                             .scale( 1 / sqrt(1.25) ), # norm w/known length
                         @u[$i]
                     ]) given @p[$i];
-                } elsif @list > 1 && (-1 <= @p[1-$i].z <= 1) {
+                }
+                elsif @list > 1 && (-1 <= @p[1-$i].z <= 1) {
                     my $u = (-1 - $ray_pos.z) / $ray_dir.z;
                     my $point = $ray_pos.add( $ray_dir.scale($u) );
                     @return_points.push([
@@ -72,7 +73,7 @@ method _ray_intersection (
         }
     }
     
-    return @return_points;
+    @return_points
 }
 
-
+# vim: expandtab shiftwidth=4

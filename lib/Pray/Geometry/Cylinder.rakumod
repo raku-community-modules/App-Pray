@@ -1,5 +1,5 @@
-use v6;
 use Pray::Geometry::Object;
+
 unit class Pray::Geometry::Cylinder is Pray::Geometry::Object;
 
 use Pray::Geometry::Vector3D;
@@ -8,7 +8,7 @@ use Pray::Geometry::Ray;
 has $.max_radius = sqrt(2);
 
 method _contains_point (Pray::Geometry::Vector3D $point) {
-    !!( $point.z.abs < 1 && $point.x**2+$point.y**2 < 1 )
+    $point.z.abs < 1 && $point.x**2+$point.y**2 < 1
 }
 
 method _ray_intersection (
@@ -35,7 +35,8 @@ method _ray_intersection (
         if $determinant > 0 {
             $det_root = sqrt $determinant;
             @list = -1, 1;
-        } elsif $a {
+        }
+        elsif $a {
             @list = 0;
         }
 
@@ -50,7 +51,8 @@ method _ray_intersection (
                         v3d(.x, .y, 0),
                         @u[$i]
                     ]) given @p[$i];
-                } elsif
+                }
+                elsif
                     @list > 1 && (
                         -1 <= @p[1-$i].z <= 1 ||
                         $z.sign != @p[1-$i].z.sign
@@ -66,7 +68,8 @@ method _ray_intersection (
                     ]);
                 }
             }
-        } elsif $c <= 0 && $ray_dir.z {
+        }
+        elsif $c <= 0 && $ray_dir.z {
             @list = -1, 1;
             for @list -> $sign {
                 my $u = ($sign - $ray_pos.z) / $ray_dir.z;
@@ -80,7 +83,7 @@ method _ray_intersection (
         }
     }
     
-    return @return_points;
+    @return_points
 }
 
-
+# vim: expandtab shiftwidth=4

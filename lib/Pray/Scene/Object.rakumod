@@ -11,3 +11,5 @@ has Pray::Scene::Material $.material =
         diffuse => Pray::Scene::Diffusion.new
     )
 ;
+
+# vim: expandtab shiftwidth=4

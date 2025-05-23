@@ -49,13 +49,15 @@ method ray_intersection (
                 :$segment,
                 :$inside
             );
-        } elsif $list {
+        }
+        elsif $list {
             @return.push($obj) if $obj.geometry.ray_intersection(
                 $ray,
                 :$segment,
                 :$inside
             );
-        } else {
+        }
+        else {
             my @intersect := $obj.geometry.ray_intersection(
                 $ray,
                 :$segment,
@@ -73,29 +75,29 @@ method ray_intersection (
 
     return @return if $list;
 
-    return Pray::Scene::Intersection.new(
-        :$ray,
-        object => @return[3],
-        scene => self,
-        position => @return[0],
-        direction => @return[1],
-        distance => @return[2],
-        :@containers,
-    ) if @return;
-
-    return;
+    @return
+      ?? Pray::Scene::Intersection.new(
+          :$ray,
+          object    => @return[3],
+          scene     => self,
+          position  => @return[0],
+          direction => @return[1],
+          distance  => @return[2],
+          :@containers,
+        )
+      !! Nil
 }
 
 method intersection_color (
     $intersection,
     :$recurse,
 ) {
-    return $.sky unless $intersection && $intersection.object;
-
-    return $intersection.object.material.intersection_color(
-        $intersection,
-        $recurse,
-    );
+    $intersection && $intersection.object
+      ?? $intersection.object.material.intersection_color(
+           $intersection,
+           $recurse,
+         )
+      !! $.sky
 }
 
-
+# vim: expandtab shiftwidth=4

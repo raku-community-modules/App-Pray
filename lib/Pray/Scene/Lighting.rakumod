@@ -1,5 +1,3 @@
-use v6;
-
 use Pray::Geometry::Vector3D;
 use Pray::Geometry::Ray;
 use Pray::Scene::Color;
@@ -51,13 +49,10 @@ class Pray::Scene::Specularity is Pray::Scene::Lighting {
                 return black unless $specular;
             }
 
-            $specular =
-                self.color_scaled\
-                .scale($specular).scale($light_color);
-
-            return $specular;
-        } else {
-            return black;
+            self.color_scaled.scale($specular).scale($light_color)
+        }
+        else {
+            black
         }
     }
 }
@@ -80,7 +75,7 @@ class Pray::Scene::Reflection is Pray::Scene::Lighting {
             containers => $int.containers,
         );
         
-        return $reflect_color.scale(self.color_scaled);
+        $reflect_color.scale(self.color_scaled)
     }
 }
 
@@ -125,7 +120,8 @@ class Pray::Scene::Transparency is Pray::Scene::Lighting {
         if $int.exiting {
             @containers.splice($ri_i, 1);
             ($ri_1, $ri_2) = $ri_2, $ri_1;
-        } else {
+        }
+        else {
             @containers.unshift($int.object);
         }
 
@@ -140,7 +136,8 @@ class Pray::Scene::Transparency is Pray::Scene::Lighting {
 
         if $ratio == 1 { # 1 == no refraction
             $refract_dir = $int.ray.direction;
-        } else {
+        }
+        else {
             # http://en.wikipedia.org/wiki/Snell%27s_law#Vector_form
 
             # angle between boundary surface and incoming ray
@@ -209,6 +206,8 @@ class Pray::Scene::Transparency is Pray::Scene::Lighting {
             $color = $color.scale(1-$reflect).add($reflect_color);
         }
 
-        $color;
+        $color
     }
 }
+
+# vim: expandtab shiftwidth=4

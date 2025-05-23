@@ -1,4 +1,3 @@
-use v6;
 use Pray::Geometry::Object;
 unit class Pray::Geometry::Sphere is Pray::Geometry::Object;
 
@@ -47,7 +46,7 @@ method _ray_intersection (
         }
     }
 
-    return @return_points;
+    @return_points
 }
 
-
+# vim: expandtab shiftwidth=4

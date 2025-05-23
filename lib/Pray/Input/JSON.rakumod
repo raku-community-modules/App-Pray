@@ -2,30 +2,28 @@ unit module Pray::Input::JSON;
 # forked from https://github.com/tadzik/JSON-Unmarshal
 # will either be heavily customized for scene files, or replaced
 
-use JSON::Tiny;
+use JSON::Fast:ver<0.19+>;
 
 sub panic ($json, $type) {
-    die "Cannot load {$json.perl} to type {$type.perl}"
+    die "Cannot load $json.raku() to type $type.raku()"
 }
 
 multi _load ($json, Int) {
-    if $json ~~ Int {
-        return Int($json)
-    }
-    panic($json, Int)
+    $json ~~ Int
+      ?? Int($json)
+      !! panic($json, Int)
 }
 
 multi _load ($json, Numeric) {
-    if $json ~~ Numeric {
-        return Num($json)
-    }
-    panic($json, Numeric)
+    $json ~~ Numeric
+      ?? Num($json)
+      !! panic($json, Numeric)
 }
 
 multi _load ($json, Str) {
-    if $json ~~ Stringy {
-        return Str($json)
-    }
+    $json ~~ Stringy
+      ?? Str($json)
+      !! Nil
 }
 
 multi _load ($json is copy, Any $x) {
@@ -39,15 +37,15 @@ multi _load ($json is copy, Any $x) {
     for $json.keys -> $arg {
         %args{$arg} := $json{$arg};
     }
-    return $type.new(|%args)
+    $type.new(|%args)
 }
 
 multi _load ($json, @x) {
-    return $json.list.map: { _load($_, @x.of) }
+    $json.list.map: { _load($_, @x.of) }
 }
 
 multi _load ($json, Mu) {
-    return $json
+    $json
 }
 
 our sub load_file ($file, $obj) {
@@ -62,3 +60,4 @@ our sub load_data ($data, $obj) {
     _load($data, $obj)
 }
 
+# vim: expandtab shiftwidth=4

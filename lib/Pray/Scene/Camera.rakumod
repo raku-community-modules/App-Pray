@@ -1,8 +1,7 @@
-use v6;
-
 class Pray::Scene::Camera::Anaglyph {
     use Pray::Scene::Color;
     use Pray::Scene::Lighting;
+
     has Real $.separation = 1/6;
     has Pray::Scene::Lighting $.left = 
         Pray::Scene::Lighting.new(color => rgb 1,0,0);
@@ -111,7 +110,7 @@ class Pray::Scene::Camera {
 
         $return .= scale($!exposure);
 
-        return $return;
+        $return
     }
 
     method screen_coord_color (
@@ -130,3 +129,4 @@ class Pray::Scene::Camera {
 
 }
 
+# vim: expandtab shiftwidth=4

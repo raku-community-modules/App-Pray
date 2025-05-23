@@ -68,5 +68,7 @@ method intersection_color (
         }
     }
 
-    return $color;
+    $color
 }
+
+# vim: expandtab shiftwidth=4

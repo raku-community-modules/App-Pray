@@ -1,12 +1,6 @@
 unit class Pray::Output;
 
-use Image::PNG::Portable;
-
-#`[[[
-https://rt.perl.org/Public/Bug/Display.html?id=123700
-subset PInt of Int where * > 0;
-subset NNInt of Int where * >= 0;
-]]]
+use Image::PNG::Portable:ver<0.1+>;
 
 has Str $.file;
 has Int $.width;
@@ -52,7 +46,7 @@ method !init () {
 
     # this workaround prevents substr-rw from causing string corruption later
     # TODO reduce & report
-    # perl6 -MPray::Output -e 'my $o = Pray::Output.new(:width(64), :height(64)); sleep 2; $o.set(56, 56, 1, 1, 1); $o.finish;'
+    # raku -MPray::Output -e 'my $o = Pray::Output.new(:width(64), :height(64)); sleep 2; $o.set(56, 56, 1, 1, 1); $o.finish;'
     substr-rw($!preview-string, $!preview-w+4, 0) = '';
 
     self.preview: :force if $!preview;
@@ -62,7 +56,7 @@ method !init () {
         $!supply.tap: done => { $!promise.keep };
     }
 
-    self;
+    self
 }
 
 method coord_index ($x, $y) { ($y * $!width + $x) * 3 }
@@ -102,9 +96,7 @@ method finish () {
             $!count / $seconds;
     }
 
-    $!finished = True;
-
-    True;
+    $!finished = True
 }
 
 method write () {
@@ -119,11 +111,12 @@ method set (Int $x, Int $y, $r, $g, $b) {
 
     if $!sync {
         self!set($x, $y, $r, $g, $b);
-    } else {
+    } 
+    else {
         start { $!supply.emit: [$x, $y, $r, $g, $b] };
     }
 
-    True;
+    True
 }
 
 sub process ($_) {
@@ -161,7 +154,7 @@ method !set ($x, $y, $r is copy, $g is copy, $b is copy) {
         self.preview;
     }
 
-    True;
+    True
 }
 
 method !get ($x, $y) {
@@ -184,7 +177,7 @@ method preview (Bool :$force = False) {
         print $!preview-string;
     }
 
-    True;
+    True
 }
 
 method update_preview ($x, $y) {
@@ -192,7 +185,7 @@ method update_preview ($x, $y) {
         self.preview_char:
             $!preview-buffer[$!preview-w * $y + $x] / $!preview-scale-area;
 
-    True;
+    True
 }
 
 method preview_char ($shade) {
@@ -211,11 +204,11 @@ method preview_char ($shade) {
 }
 
 my @time_units = (
-    [    86400,    'day',            'dy'    ],
-    [    3600,    'hour',            'hr'    ],
-    [    60,        'minute',        'min'    ],
-    [    1,        'second',        'sec'    ],
-    [    1/1000,    'millisecond',    'ms'    ]
+    [86400,  'day',         'dy' ],
+    [3600,   'hour',        'hr' ],
+    [60,     'minute',      'min'],
+    [1,      'second',      'sec'],
+    [1/1000, 'millisecond', 'ms' ]
 );
 
 sub seconds_to_time ($seconds is copy) {
@@ -233,7 +226,7 @@ sub seconds_to_time ($seconds is copy) {
         $return ~= "$value $_[2]$plural";
     }
 
-    return $return;
+    $return
 }
 
-
+# vim: expandtab shiftwidth=4

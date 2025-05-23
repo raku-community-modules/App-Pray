@@ -46,7 +46,7 @@ method _build_transform (
         $transform .= multiply( m3d.translate(|%args) );
     }
     
-    return $transform;
+    $transform
 }
 
 has Pray::Geometry::Matrix3D $!transform =
@@ -78,7 +78,7 @@ multi submethod new (Str :$primitive!, |args) {
     my $class = ::($class_name);
     die "Unrecognized object primitive '$primitive' in scene"
         unless $class.isa($?CLASS);
-    $class.new(|args);
+    $class.new(|args)
 }
 
 method ray_intersection (
@@ -167,7 +167,7 @@ method ray_intersection (
             unless !$transform && $result[2].defined;
     }
     
-    return @return;
+    @return
 }
 
 method ray_intersection_csg_add (
@@ -181,7 +181,7 @@ method ray_intersection_csg_add (
         ).grep: { !self.contains_point($_[0], :csg($obj), :!transform) }
     );
 
-    return @return;
+    @return
 }
 
 method ray_intersection_csg_subtract (
@@ -197,7 +197,7 @@ method ray_intersection_csg_subtract (
         }
     );
     
-    return @return;
+    @return
 }
 
 method ray_intersection_csg_intersect (
@@ -211,7 +211,7 @@ method ray_intersection_csg_intersect (
         ).grep: { self.contains_point($_[0], :csg($obj), :!transform) }
     );
 
-    return @return;
+    @return
 }
 
 method ray_intersection_csg_deintersect (
@@ -234,7 +234,7 @@ method ray_intersection_csg_deintersect (
         )
     );
 
-    return @return;
+    @return
 }
 
 method _ray_intersection (Pray::Geometry::Ray $ray) { return }
@@ -267,7 +267,7 @@ method contains_point (
         }
     }
 
-    return $return;
+    $return
 }
 
 method _contains_point (Pray::Geometry::Vector3D $point) { return False }
@@ -276,4 +276,4 @@ method rotate_radians () {
     self.rotate.scale(pi/180)
 }
 
-
+# vim: expandtab shiftwidth=4

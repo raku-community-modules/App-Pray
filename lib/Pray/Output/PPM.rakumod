@@ -24,14 +24,12 @@ multi method new ($filename, $width, $height) {
     self.bless: :$filename, :$width, :$height;
 }
 
-method set_next (Pray::Scene::Color $color) {
+method set_next (Pray::Scene::Color $color --> Nil) {
     $!channel.send: $color;
-    return;
 }
 
-method write () {
+method write (--> Nil) {
     $!channel.close;
-    return;
 }
 
-
+# vim: expandtab shiftwidth=4

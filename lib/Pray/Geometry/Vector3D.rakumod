@@ -8,26 +8,18 @@ has $.x = 0;
 has $.y = 0;
 has $.z = 0;
 
-
-
 our sub v3d ($x, $y, $z) is export {
     $?CLASS.bless: :$x, :$y, :$z
 }
-
-
 
 method v3d ($x, $y, $z, :$in) {
     $in ?? self.set($x,$y,$z) !! v3d($x,$y,$z);
 }
 
-
-
 has $!length_sqr;
 method length_sqr () {
     $!length_sqr //= $!x*$!x + $!y*$!y + $!z*$!z;
 }
-
-
 
 has $!length;
 method length () {
@@ -37,8 +29,6 @@ method length () {
     };
 }
 
-
-
 method set ($x, $y, $z) {
     $!x = $x;
     $!y = $y;
@@ -46,10 +36,8 @@ method set ($x, $y, $z) {
     $!length = Any;
     $!length_sqr = Any;
 
-    self;
+    self
 }
-
-
 
 method normalize (Numeric $length = 1, :$in) {
     my $current_length_sqr = self.length_sqr;
@@ -61,8 +49,6 @@ method normalize (Numeric $length = 1, :$in) {
     ;
 }
 
-
-
 method add (Pray::Geometry::Vector3D $vector, :$in) {
     self.v3d(
         $!x + $vector.x,
@@ -71,8 +57,6 @@ method add (Pray::Geometry::Vector3D $vector, :$in) {
         :$in
     )
 }
-
-
 
 method subtract (Pray::Geometry::Vector3D $vector, :$in) {
     self.v3d(
@@ -83,15 +67,11 @@ method subtract (Pray::Geometry::Vector3D $vector, :$in) {
     )
 }
 
-
-
 method dot (Pray::Geometry::Vector3D $vector) {
     $!x * $vector.x +
     $!y * $vector.y +
     $!z * $vector.z
 }
-
-
 
 method cross (Pray::Geometry::Vector3D $vector, :$in) {
     self.v3d(
@@ -102,20 +82,14 @@ method cross (Pray::Geometry::Vector3D $vector, :$in) {
     )
 }
 
-
-
 method angle (Pray::Geometry::Vector3D $vector) {
     acos self.angle_cos($vector)
 }
-
-
 
 method angle_cos (Pray::Geometry::Vector3D $vector) {
     self.dot($vector) /
     ( self.length * $vector.length )
 }
-
-
 
 multi method scale (
     Numeric $scale,
@@ -132,8 +106,6 @@ multi method scale (
     )
 }
 
-
-
 multi method scale (
     Pray::Geometry::Vector3D $scale,
     Pray::Geometry::Vector3D :$center,
@@ -149,19 +121,13 @@ multi method scale (
     )
 }
 
-
-
 method reflect (Pray::Geometry::Vector3D $vector, :$in) {
     $vector.scale(2 * self.dot($vector), :$in).subtract(self, :in)
 }
 
-
-
 method reverse (:$in) {
     self.v3d( -$!x, -$!y, -$!z, :$in)
 }
-
-
 
 multi method rotate (
     $axis where enum <x y z>,
@@ -169,9 +135,10 @@ multi method rotate (
     Pray::Geometry::Vector3D :$center,
     :$in
 ) {
-    $center ??
+    if $center {
         self.subtract($center, :$in).rotate($axis, $angle, :in).add($center, :in)
-    !! {
+    }
+    else {
         my ($sin, $cos) = sin($angle), cos($angle);
         my @axii = <x y z>.grep: {$_ ne $axis};
         my %result;
@@ -183,11 +150,9 @@ multi method rotate (
             %result<y>,
             %result<z>,
             :$in
-        );
-    }();
+        )
+    }
 }
-
-
 
 multi method rotate (
     Pray::Geometry::Vector3D $axis,
@@ -195,19 +160,18 @@ multi method rotate (
     Pray::Geometry::Vector3D :$center,
     :$in
 ) {
-    $center ??
+    if $center {
         self.subtract($center, :$in).rotate($axis, $angle, :in).add($center, :in)
-    !! {
+    }
+    else {
         my $cos = cos $angle;
         self.scale($cos, :$in).add(
             $axis.cross(self).scale(sin($angle), :in), :in
         ).add(
             $axis.scale( $axis.dot(self) * (1-$cos) ), :in
-        );
-    }();
+        )
+    }
 }
-
-
 
 method transform (Pray::Geometry::Matrix3D $m, :$in) {
     my $v := $m.values;
@@ -219,5 +183,4 @@ method transform (Pray::Geometry::Matrix3D $m, :$in) {
     )
 }
 
-
-
+# vim: expandtab shiftwidth=4

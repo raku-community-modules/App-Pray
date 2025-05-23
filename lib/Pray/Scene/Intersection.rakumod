@@ -41,4 +41,4 @@ has @.containers =
 has Bool $.exiting =
     $!object ?? $!object ∈ @!containers !! False;
 
-
+# vim: expandtab shiftwidth=4

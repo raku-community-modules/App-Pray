@@ -35,3 +35,4 @@ method rotate (*@arguments, :$center) {
 }
 ]]]
 
+# vim: expandtab shiftwidth=4

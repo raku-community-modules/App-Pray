@@ -1,5 +1,5 @@
-use v6;
 use Pray::Geometry::Object;
+
 unit class Pray::Geometry::Cube is Pray::Geometry::Object;
 
 use Pray::Geometry::Vector3D;
@@ -12,7 +12,7 @@ method _contains_point (Pray::Geometry::Vector3D $point) {
         return False unless $_.abs < 1; 
     }
 
-    return True;
+    True
 }
 
 method _ray_intersection (Pray::Geometry::Ray $ray) {
@@ -50,7 +50,7 @@ method _ray_intersection (Pray::Geometry::Ray $ray) {
         }
     }
     
-    return @return;
+    @return
 }
 
-
+# vim: expandtab shiftwidth=4

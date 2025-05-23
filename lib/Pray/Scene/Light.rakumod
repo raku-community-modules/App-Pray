@@ -1,5 +1,3 @@
-use v6;
-
 use Pray::Scene::Lighting;
 
 unit class Pray::Scene::Light is Pray::Scene::Lighting;
@@ -44,12 +42,13 @@ method intersection_color (
         $shadow .= scale(.color_scaled) for @filters;
     }
 
-    return self.point_color($int.position).scale($shadow);
+    self.point_color($int.position).scale($shadow)
 }
 
 method point_color (Pray::Geometry::Vector3D $point) {
     my $light_dist_sqr = $.position.subtract($point).length_sqr;
     my $light_falloff = 1 / (1 + $light_dist_sqr);
-    return self.color_scaled.scale($light_falloff);
+    self.color_scaled.scale($light_falloff)
 }
 
+# vim: expandtab shiftwidth=4

@@ -1,64 +1,65 @@
-ABOUT
+=begin pod
 
-This is Pray, a Perl 6 ray tracer. It is tested to work with recent builds of
+=head1 NAME
+
+App::Pray - Raku Ray Tracing Engine
+
+=head1 SYNOPSIS
+
+=begin output
+
+$ pray scene.json --width=100
+
+=end output
+
+=head1 DESCRIPTION
+
+This is Pray, a Raku ray tracer. It is tested to work with recent builds of
 Rakudo on the MoarVM backend, though it is likely to work on any modern Rakudo.
 Image::PNG::Portable and JSON::Tiny are required.
 
+=head1 USAGE
 
+Input is a JSON scene file, described later. Output is a 24-bit PNG image
+file.
 
-INSTALLATION
+Pray is normally invoked as the C<pray> script.
 
-The recommended way to install Pray is via panda, by running "panda install
-App::Pray". Pray will also run just fine by simply cloning/extracting it
-anywhere you like, though startup time will be increased if not precompiled
-(e.g. by panda-build), and you will also have to ensure that the
-Image::PNG::Portable and JSON::Tiny modules are installed.
-
-
-
-USAGE
-
-Input is a JSON scene file, described later. Output is a 24-bit PNG image file.
-
-Pray is normally invoked as the "pray" script in the bin directory of the
-module, which may also be copied/linked elsewhere like in your path if you
-installed via panda. Two positional arguments are accepted. The first is the
-name of the scene file to read, which defaults to "scene.json". The second is
-the file name of the PNG image to write, and defaults to the file name of the
-scene file (ignoring any directory prefix), with everything after the last
-period replaced by "png". If the scene file name is "examples/scene-01.json"
-for instance, then the image file name defaults to "scene-01.png" in the
+Two positional arguments are accepted. The first is the name of the scene
+file to read, which defaults to "scene.json". The second is the file name
+of the PNG image to write, and defaults to the file name of the scene file
+(ignoring any directory prefix), with everything after the last period
+replaced by "png". If the scene file name is "examples/scene-01.json" for
+instance, then the image file name defaults to "scene-01.png" in the
 current working directory.
 
---width
---height
+=item --width
+=item --height
 The size of the output image in positive whole numbers. At least one of these
 is required, and an omitted one will default to the value of the other. The
 field of view will be expanded to fill non-square aspect ratios, as opposed to
 being clipped.
 
---preview
+=item --preview
 Shows a preview of the in-progress render. On by default.
 
---verbose
+=item --verbose
 Currently just prints the line number of the currently rendering line. Useful
 if preview is disabled. May do more or something else entirely in the future.
 Off by default.
 
---quiet
+=item --quiet
 Disables the summary of the performance of the operation when complete. Also
 disables preview, unless it is explicitly enabled. Off by default.
 
+=head1 SCENES
 
-
-SCENES
-
-[DISCLAIMER: As the scene files could be thought of as the main user interface,
+DISCLAIMER: As the scene files could be thought of as the main user interface,
 an important note about them goes here: they're not done yet. The author feels
 that they are verbose, cumbersome, rigid, and fail with cryptic error messages.
 This will change, as will many other things about scene files. So don't expect
 your scene files to work unaltered in future versions until Pray is a little
-less alpha-ish.]
+less alpha-ish.
 
 The scene files are JSON formatted. As such, numbers must always have a digit
 before a decimal ("0.5", not ".5"), and single quotes ("'") and trailing commas
@@ -69,6 +70,7 @@ object with keys "camera", "objects", and "lights". See the included examples
 for details. Wherever possible, sane defaults are used. The structure looks
 roughly like this:
 
+=begin output
 scene                       the top-level block of the file
     camera                  the view into the scene
         position            view point
@@ -105,6 +107,7 @@ scene                       the top-level block of the file
                 color
                 intensity   how transparent the object is (fades other colors)
                 refraction  whether and how much this object bends light
+=end output
 
 The coordinate system uses Y for depth and Z for height, and is left-handed
 (if +X is right and +Z is up, +Y is forward). Except for the camera, positions
@@ -150,16 +153,14 @@ intersect/intersection/and, and deintersect/difference/xor. CSG geometry is
 defined in the space of the object it is being applied to. In other words,
 position/scale/rotate applies to the whole object including CSG sub-geometries.
 
-
-
-HACKING
+=head1 HACKING
 
 There is much which could be added, improved, or simplified. So jump in! I'm
 looking forward to seeing what others do with Pray.
 
-This is my first Perl 6 project, thus much of the code probably looks a lot
-like Perl 5. As a self-education project, I have been and continue to be
-learning and re-learning Perl 6 over the course of development, small parts at
+This is my first Raku project, thus much of the code probably looks a lot
+like Perl. As a self-education project, I have been and continue to be
+learning and re-learning Raku over the course of development, small parts at
 a time. The numerous iterations over all of the major components still show
 through in some spots, and in some others it's just clear that my understanding
 is still incomplete. Even the situational use of bracketing and indenting is
@@ -213,48 +214,59 @@ benefits, and is an overarching direction I plan to move everything towards.
 Use of types and type constraints is spotty. All sorts of input validation and
 error checking is missing.
 
-
-
-LIMITATIONS/BUGS/TODO
+=head1 LIMITATIONS/BUGS/TODO
 
 In no particular order: There is currently no internal reflection, subsurface
 scattering, volumetric lighting, global illumination, caustics, depth of field,
 anti-aliasing, or concurrency. Primitive choices are few (missing 4 of 5
 platonic solids, among other things), and only the most basic transformations
-exist, and they are applied as a whole in only one fixed order.  There is no
-support for non-solid objects such as planes, polygons, or hollow surfaces, nor
-meshes whether open or closed. No procedural surfaces, textures of any kind,
-bump maps, or things which might be considered "effects" like motion blur or
-particle systems. There's no support for fractals in any way shape or form,
-which is sad. Scene files feel crufty and fragile, and there is no way to
-re-use data in multiple places, forcing the same color to be applied for each
-material lighting type, for instance. Scene files have to be created by hand in
-a text editor. The API is not yet suitable for external use. Various naming and
-calling conventions all over the place are questionable. Performance is almost
+exist, and they are applied as a whole in only one fixed order.
+
+There is no support for non-solid objects such as planes, polygons, or hollow
+surfaces, nor meshes whether open or closed. No procedural surfaces, textures
+of any kind, bump maps, or things which might be considered "effects" like
+motion blur or particle systems.
+
+There's no support for fractals in any way shape or form, which is sad. Scene
+files feel crufty and fragile, and there is no way to re-use data in multiple
+places, forcing the same color to be applied for each material lighting type,
+for instance.
+
+Scene files have to be created by hand in a text editor.
+
+The API is not yet suitable for external use. Various naming and calling
+conventions all over the place are questionable. Performance is almost
 certainly much less than it could be, even given the present state of Rakudo.
 Repeating from above, all sorts of input validation and error checking is
-missing. Documentation is lacking. The web page and whole site are uninspiring
-and a bit internally neglected, considering I advertise myself as a web
-developer.
+missing.
 
+Documentation is lacking.
 
+=head1 CREDITS
 
-CONTACT
-
-http://cyberuniverses.com/pray/
-http://github.com/raydiak/pray
-raydiak@cyberuniverses.com
-
-
-
-CREDITS
-
-Perl 6 and its implementations are the tireless effort of many wonderful people
+Raku and its implementations are the tireless effort of many wonderful people
 around the world.
-http://perl6.org/
-http://rakudo.org/
+=item https://raku.org/
+=item https://rakudo.org/
 
-The scene loading code is forked from http://github.com/tadzik/JSON-Unmarshal
+The scene loading code is forked from
+L<JSON::Unmarshal|https://raku.land/zef:raku-community-modules/JSON::Unmarshal>.
 
 Parts of the matrix code are or were forked from or inspired by
-http://github.com/colomon/Math-Vector
+L<Math::Vector|https://raku.land/zef:librasteve/Math::Vector>.
+
+=head1 AUTHOR
+
+raydiak
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2014 - 2020 raydiak
+
+Copyright 2025 Raku Community
+
+This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+
+=end pod
+
+# vim: expandtab shiftwidth=4

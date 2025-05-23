@@ -1,4 +1,3 @@
-*~
-blib/
 .precomp/
-**/*.png
+/App-Pray-*
+*.rakucov

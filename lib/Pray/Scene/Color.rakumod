@@ -65,7 +65,7 @@ method clip_high {
         %channels<r>,
         %channels<g>,
         %channels<b>
-    );
+    )
 }
 
 method clip {
@@ -77,3 +77,5 @@ method is_black () { $!r <= 0 && $!g <= 0 && $!b <= 0 }
 method is_white () { $!r >= 1 && $!g >= 1 && $!b >= 1 }
 
 method brightness () { ($!r + $!g + $!b) / 3 }
+
+# vim: expandtab shiftwidth=4
