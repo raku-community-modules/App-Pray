@@ -1,6 +1,8 @@
 Revision history for App::Pray
 
 {{$NEXT}}
+
+0.2  2025-05-23T17:50:59+02:00
     - Reduce Pray vs App::Pray confusion
 
 0.1  2025-05-23T15:57:07+02:00
