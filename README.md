@@ -1,9 +1,9 @@
-[![Actions Status](https://github.com/raku-community-modules/Pray/actions/workflows/linux.yml/badge.svg)](https://github.com/raku-community-modules/Pray/actions) [![Actions Status](https://github.com/raku-community-modules/Pray/actions/workflows/macos.yml/badge.svg)](https://github.com/raku-community-modules/Pray/actions) [![Actions Status](https://github.com/raku-community-modules/Pray/actions/workflows/windows.yml/badge.svg)](https://github.com/raku-community-modules/Pray/actions)
+[![Actions Status](https://github.com/raku-community-modules/App-Pray/actions/workflows/linux.yml/badge.svg)](https://github.com/raku-community-modules/App-Pray/actions) [![Actions Status](https://github.com/raku-community-modules/App-Pray/actions/workflows/macos.yml/badge.svg)](https://github.com/raku-community-modules/App-Pray/actions) [![Actions Status](https://github.com/raku-community-modules/App-Pray/actions/workflows/windows.yml/badge.svg)](https://github.com/raku-community-modules/App-Pray/actions)
 
 NAME
 ====
 
-Pray - Raku Ray Tracing Engine
+App::Pray - Raku Ray Tracing Engine
 
 SYNOPSIS
 ========

@@ -1,4 +1,5 @@
 {
+  "auth": "zef:raku-community-modules",
   "author": "raydiak",
   "build-depends": [
   ],
@@ -8,7 +9,7 @@
   ],
   "description": "Raku Ray Tracing Engine",
   "license": "Artistic-2.0",
-  "name": "App-Pray",
+  "name": "Pray",
   "perl": "6.*",
   "provides": {
     "Pray": "lib/Pray.rakumod",
@@ -34,7 +35,7 @@
   },
   "resources": [
   ],
-  "source-url": "https://github.com/raku-community-modules/Pray.git",
+  "source-url": "https://github.com/raku-community-modules/App-Pray.git",
   "tags": [
   ],
   "test-depends": [
